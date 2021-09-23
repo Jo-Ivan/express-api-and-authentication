@@ -15,6 +15,7 @@ router.get("/", (req, res, next) => {
   // to the `.then()` where we send the response as JSON
   // with `res.json` and pass it any jobs found
   Job.find()
+    .populate("owner", "email -_id")
     .then((jobs) => res.json(jobs))
     .catch(next);
 });
@@ -23,6 +24,7 @@ router.get("/", (req, res, next) => {
 // GET api/jobs/5a7db6c74d55bc51bdf39793
 router.get("/:id", handleValidateId, (req, res, next) => {
   Job.findById(req.params.id)
+    .populate("owner")
     .then(handleRecordExists)
     .then((job) => {
       if (!job) {

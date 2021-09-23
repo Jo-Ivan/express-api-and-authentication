@@ -23,9 +23,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Add controllers
+const userController = require("./controllers/users");
 const jobController = require("./controllers/jobs");
 
 // Configure the route middleware
+app.use("/api", userController);
 app.use("/api/jobs", jobController);
 
 // The last middleware receives any error as its first argument
