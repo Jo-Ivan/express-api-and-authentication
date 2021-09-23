@@ -17,13 +17,21 @@ router.get("/", (req, res) => {
 // SHOW
 // GET api/jobs/5a7db6c74d55bc51bdf39793
 router.get("/:id", (req, res) => {
-  Job.findById(req.params.id).then((job) => res.json(job));
+  Job.findById(req.params.id).then((job) => {
+    if (!job) {
+      res.send(404);
+    } else {
+      res.json(job);
+    }
+  });
 });
 
 // CREATE
 // POST api/jobs
 router.post("/", (req, res) => {
-  Job.create(req.body).then((job) => res.json(job));
+  Job.create(req.body)
+    .status(201)
+    .then((job) => res.json(job));
 });
 
 // UPDATE
@@ -31,7 +39,13 @@ router.post("/", (req, res) => {
 router.put("/:id", (req, res) => {
   Job.findOneAndUpdate({ _id: req.params.id }, req.body, {
     new: true
-  }).then((job) => res.json(job));
+  }).then((job) => {
+    if (!job) {
+      res.sendStatus(404);
+    } else {
+      res.json(job);
+    }
+  });
 });
 
 // DESTROY
@@ -39,7 +53,13 @@ router.put("/:id", (req, res) => {
 router.delete("/:id", (req, res) => {
   Job.findOneAndDelete({
     _id: req.params.id
-  }).then((job) => res.json(job));
+  }).then((job) => {
+    if (!job) {
+      res.sendStatus(404);
+    } else {
+      res.json(204);
+    }
+  });
 });
 
 module.exports = router;
