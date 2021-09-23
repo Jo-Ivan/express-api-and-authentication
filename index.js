@@ -21,6 +21,12 @@ app.use(express.json());
 // a specific content type (such as when using Axios)
 app.use(express.urlencoded({ extended: true }));
 
+// Add controllers
+const jobController = require("./controllers/jobs");
+
+// Configure the route middleware
+app.use("/api/jobs", jobController);
+
 // Define a port for API to run on, if the environment
 // variable called `PORT` is not found use port 4000
 app.set("port", process.env.PORT || 4000);
